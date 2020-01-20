@@ -8,6 +8,9 @@ export default class extends Component {
         <p>
           This is an example Next.js project.
         </p>
+        <p>
+          This change should be visible in the test instance.
+        </p>
       </>
     );
   }
