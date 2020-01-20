@@ -1,4 +1,4 @@
-name: Destroy Pull Request environment
+name: Delete Pull Request environment
 on:
   pull_request:
     types: [closed]
@@ -7,7 +7,7 @@ jobs:
     name: deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
       - name: Install NPM dependencies
         run: npm ci
