@@ -1,4 +1,4 @@
-name: Create/Deploy Pull Request environments
+name: Create/Deploy Pull Request environment
 on: pull_request
 jobs:
   deploy:

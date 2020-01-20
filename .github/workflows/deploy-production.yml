@@ -1,8 +1,8 @@
-name: Deploy staging branch to staging environment
+name: Deploy to production
 on:
   push:
     branches:
-      - staging
+      - master
 jobs:
   deploy:
     name: deploy
@@ -17,6 +17,6 @@ jobs:
       - name: Deploy application
         run: npm run deploy
         env:
-          HOSTNAME: ${{ secrets.STAGING_HOSTNAME }}
+          HOSTNAME: ${{ secrets.PRODUCTION_HOSTNAME }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
