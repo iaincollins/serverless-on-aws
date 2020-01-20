@@ -14,6 +14,6 @@ jobs:
       - name: Destroy instance of application
         run: npm run destroy
         env:
-          HOSTNAME: ${{ github.event.number }}-pr.${{ secrets.PULL_REQUEST_DOMAIN }}
+          HOSTNAME: pr-${{ github.event.number }}.${{ secrets.PULL_REQUEST_DOMAIN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
