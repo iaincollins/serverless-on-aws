@@ -1,6 +1,6 @@
 {
   "name": "serverless-pull-request-environments-with-github-actions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An example of Serverless pull request environments automatically created/removed using GitHub Actions",
   "main": "index.js",
   "scripts": {
