@@ -1,4 +1,4 @@
-name: Tear down Pull Request environment when a PR is closed
+name: Destroy Pull Request environment
 on:
   pull_request:
     types: [closed]
