@@ -8,7 +8,7 @@
     "start": "next-serverless start src",
     "build": "next-serverless build src",
     "deploy": "serverless create_domain && serverless deploy",
-    "destroy": "serverless remove && serverless delete_domain",
+    "destroy": "serverless delete_domain",
     "logs": "serverless logs --stage prod -f app -t"
   },
   "repository": {
