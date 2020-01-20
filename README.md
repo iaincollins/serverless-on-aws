@@ -25,10 +25,33 @@ The following secrets need to be configured in AWS for these workflows to work.
 
 * `AWS_ACCESS_KEY_ID` – AWS Credentials
 * `AWS_SECRET_ACCESS_KEY` – AWS Credentials
-* `PRODUCTION_HOSTNAME` – e.g. "www.example.com"
-* `STAGING_HOSTNAME` – e.g. "stage.example.com"
-* `PULL_REQUEST_DOMAIN` – e.g. "test.example.com" will result URLs like "pr-1.test.example.com"
+* `APP_NAME` – An identifier for your app in AWS (lower case letters and hyphens only, e.g. "my-web-app")
 
-Note:
+For production deployment you will need to specify the following:
 
-The AWS Key/Secret need to be associated with an account that has appropriate permissions to deploy/delete CloudFront Distributions, SSL certificates, S3 Buckets, Gateway and Lambda functions and IAM roles (serverless automatically creates IAM roles with limited privileges which the application will run under).
+* `PRODUCTION_HOSTNAME` – Hostname for production instance (e.g. `www.example.com`)
+* `PRODUCTION_SSL_CERT` – SSL certificate name for production instance (e.g. `www.example.com`)
+
+For test instance deployment you will need to specify the following:
+
+* `TEST_DOMAIN` – Domain name to use for test instances (e.g. specifying `test.example.com` will result in test URLs like `http://pr-1.test.example.com`)
+* `TEST_SSL_CERT` – SSL certificate name for tests instances (e.g. `test.example.com`)
+
+If you want to be able to deploy to a "staging" by pushing to a branch called "staging" (e.g. for integration testing) then you will also need to configure the following environment variables:
+
+* `STAGING_HOSTNAME` – Hostname for staging instance (e.g. `stage.example.com`)
+* `STAGING_SSL_CERT` – SSL certificate name for staging instance (e.g. `stage.example.com`)
+
+### Notes
+
+#### AWS Permissions
+
+The AWS Key/Secret need to be associated with an account that has appropriate permissions to deploy/delete CloudFront Distributions, update DNS, SSL certificates, S3 Buckets, Gateway and Lambda functions and IAM roles (serverless automatically creates IAM roles with limited privileges which the application will run under).
+
+#### SSL Configuration
+
+For this workflow SSL Certificates for staging, production and test should be provisioned in advance, as this step usually requires manual intervention to verify domain ownership as part of the certificate creation process.
+
+While it is possible to full automate provision of SSL certificates within serverless this can be slow. Creating the certificates outside of serverless configuration means you can more quickly and easily tear down and de-deploy environments at any time.
+
+For `*_SSL_CERT` values, simply specify a valid hostname for the certificate and it will automatically find it. If you have a single certificate that supports wildcards for your domain (e.g. if the certificate is valid for `example.com` and `*.example.com`) and you use the same domain in production and testing then you can use the same value of `example.com` for every `*_SSL_CERT` environment variable.
