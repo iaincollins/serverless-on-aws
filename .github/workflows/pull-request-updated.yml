@@ -16,13 +16,15 @@ jobs:
       - name: Deploy application
         run: npm run deploy
         env:
-          HOSTNAME: pr-${{ github.event.number }}.${{ secrets.PULL_REQUEST_DOMAIN }}
+          SERVICE_NAME: pr-${{ github.event.number }}
+          HOSTNAME: pr-${{ github.event.number }}.${{ secrets.TEST_DOMAIN }}
+          SSL_CERT: ${{ secrets.TEST_SSL_CERT }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Post comment with link to environment
         if: github.event.action == 'opened'
         uses: unsplash/comment-on-pr@master
         with:
-          msg: "Deployed to https://pr-${{ github.event.number }}.${{ secrets.PULL_REQUEST_DOMAIN }}"
+          msg: "Deployed to https://pr-${{ github.event.number }}.${{ secrets.TEST_DOMAIN }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

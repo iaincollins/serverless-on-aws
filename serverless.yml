@@ -1,0 +1,34 @@
+  
+service: ${env:SERVICE_NAME}
+
+plugins:
+  - serverless-domain-manager
+  - serverless-plugin-common-excludes
+  - serverless-apigw-binary
+
+custom:
+  apigwBinary:
+    types:
+      - '*/*'
+  customDomain:
+    domainName: ${env:HOSTNAME}
+    certificateName: ${env:SSL_CERT}
+    basePath: ''
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: ${opt:stage, 'prod'}
+  region: us-east-1
+  timeout: 10
+
+functions:
+  app:
+    handler: src/server.handler
+    events:
+      - http: ANY /
+      - http: 'ANY {proxy+}'
+    environment:
+      NODE_ENV: production

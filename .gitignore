@@ -1,0 +1,15 @@
+# dependencies
+/node_modules
+
+# build / production
+/build
+/dist
+/.serverless
+/.next
+
+# misc
+/npm-debug.log*
+/yarn-debug.log*
+/yarn-error.log*
+.DS_Store
+.env
