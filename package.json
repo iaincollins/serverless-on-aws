@@ -4,10 +4,12 @@
   "description": "An example of Serverless pull request environments automatically created/removed using GitHub Actions",
   "main": "index.js",
   "scripts": {
-    "build": "echo \"Build application\"",
-    "deploy": "echo \"Deploy to instance $HOSTNAME …\"",
-    "destroy": "echo \"Destroy instance $HOSTNAME …\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next-serverless",
+    "start": "next-serverless start src",
+    "build": "next-serverless build src",
+    "deploy": "serverless create_domain && serverless deploy",
+    "destroy": "serverless remove && serverless delete_domain",
+    "logs": "serverless logs --stage prod -f app -t"
   },
   "repository": {
     "type": "git",
@@ -18,5 +20,18 @@
   "bugs": {
     "url": "https://github.com/iaincollins/serverless-pull-request-environments-with-github-actions/issues"
   },
-  "homepage": "https://github.com/iaincollins/serverless-pull-request-environments-with-github-actions#readme"
+  "homepage": "https://github.com/iaincollins/serverless-pull-request-environments-with-github-actions#readme",
+  "dependencies": {
+    "next": "^9.2.0",
+    "next-serverless": "^1.0.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "devDependencies": {
+    "cross-env": "^6.0.3",
+    "serverless": "^1.61.2",
+    "serverless-apigw-binary": "^0.4.4",
+    "serverless-domain-manager": "^3.3.1",
+    "serverless-plugin-common-excludes": "^3.0.0"
+  }
 }
