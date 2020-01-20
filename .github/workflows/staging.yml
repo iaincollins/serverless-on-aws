@@ -1,0 +1,22 @@
+name: Deploy staging branch to staging environment
+on:
+  push:
+    branches:
+      - staging
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+      - name: Install NPM dependencies
+        run: npm ci
+      - name: Build application
+        run: npm run build
+      - name: Deploy application
+        run: npm run deploy
+        env:
+          HOSTNAME: ${{ secrets.STAGING_HOSTNAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
