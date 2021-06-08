@@ -21,7 +21,7 @@ The purpose of this report is to develop a sample config to cater for the follow
 
 ## GitHub Repository configuration
 
-The following secrets need to be configured in AWS for these workflows to work.
+The following secrets need to be configured in GitHub for the GitHub Actions workflows to work.
 
 * `AWS_ACCESS_KEY_ID` – AWS Credentials
 * `AWS_SECRET_ACCESS_KEY` – AWS Credentials
