@@ -1,25 +1,22 @@
-# serverless-pull-request-environments-with-github-actions
-An example of Serverless pull request environments automatically created/removed using GitHub Actions
+# AWS Serverless 
 
-The purpose of this report is to develop a sample config to cater for the following use cases, to provide on-demand Pull Request serverless environments on AWS, using GitHub Actions.
+An example of Serverless Next.js app with automatic deploy to production and staging on push to the repo with Pull Request environments automatically deployed when a Pull Request is raised using GitHub Actions.
 
-## Functional requirements
+### Functionality 
 
 1. When a change is pushed to the `master` branch on GitHub, the master branch should be deployed to production environment.
 2. When a change is pushed to the `staging` branch on GitHub, the staging branch should be deployed to the staging environment.
 3. When a Pull Request is raised in GitHub, the branch associated with it should be deployed and a comment left on the Pull Request with a link to the instance.
 4. When code in a branch associated with a Pull Request is updated, changes should be pushed to the existing instance.
 5. When a Pull Request is closed and/or merged in GitHub, the environment associated with it should be removed.
-6. In all cases (master, staging and pull request environments), if an environment doesn't exist then it should automatically be created. If an environment does already exist, changes should be pushed to it (it should not create a new one).
+6. In all cases (main, staging and pull request environments), if an environment doesn't exist then it should automatically be created. If an environment does already exist, changes should be pushed to it (it should not create a new one).
 7. Deployment times for new test instances and for updates to any existing instances should be under 5 minutes.
 
-## Serverless configuration requirements
-
-1. The serverless configuration should be able to take options - such as the hostname or if a CDN should be enabled or not - as environment variables, to keep code duplication and keep complexity down.
-2. The production and staging serverless instances should include a CloudFront CDN.
-3. Pull Request environments should not include a CloudFront CDN. A CF CDN can take ~40 minutes to provision and this is unacceptably long for a PR environment and is something we can live without in most cases. Changes which require testing of the CDN can be done by pushing the release to the `staging` branch.
+Note: Spinning up an AWS CloudFront CDN can take ~40 minutes to provision, which this may be unacceptably long for a Pull Request environment. You can work around this by depoying test instances *without* a CDN and using a proxy to handle all requests for a testing domain / subdomain. This is not included in this example.
 
 ## GitHub Repository configuration
+
+### Production deployment
 
 The following secrets need to be configured in GitHub for the GitHub Actions workflows to work.
 
@@ -32,15 +29,19 @@ For production deployment you will need to specify the following:
 * `PRODUCTION_HOSTNAME` – Hostname for production instance (e.g. `www.example.com`)
 * `PRODUCTION_SSL_CERT` – SSL certificate name for production instance (e.g. `www.example.com`)
 
-For test instance deployment you will need to specify the following:
-
-* `TEST_DOMAIN` – Domain name to use for test instances (e.g. specifying `test.example.com` will result in test URLs like `http://pr-1.test.example.com`)
-* `TEST_SSL_CERT` – SSL certificate name for tests instances (e.g. `test.example.com`)
+### Staging deployment (optional)
 
 If you want to be able to deploy to a "staging" by pushing to a branch called "staging" (e.g. for integration testing) then you will also need to configure the following environment variables:
 
 * `STAGING_HOSTNAME` – Hostname for staging instance (e.g. `stage.example.com`)
 * `STAGING_SSL_CERT` – SSL certificate name for staging instance (e.g. `stage.example.com`)
+
+### Pull Request / test instance deployment (optional)
+
+For test instance deployment you will need to specify the following:
+
+* `TEST_DOMAIN` – Domain name to use for test instances (e.g. specifying `test.example.com` will result in test URLs like `http://pr-1.test.example.com`)
+* `TEST_SSL_CERT` – SSL certificate name for tests instances (e.g. `test.example.com`)
 
 ### Notes
 
