@@ -1,10 +1,10 @@
 # AWS Serverless 
 
-An example of Serverless Next.js app with automatic deploy to production and staging on push to the repo with Pull Request environments automatically deployed when a Pull Request is raised using GitHub Actions.
+An example of Serverless Next.js app with automatic deploy to production and staging on push to the repo with Pull Request environments automatically deployed when a Pull Request is raised using GitHub Actions. This is similar to the developer experience of using a platform like Vercel.
 
 ### Functionality 
 
-1. When a change is pushed to the `master` branch on GitHub, the master branch should be deployed to production environment.
+1. When a change is pushed to the `main` branch on GitHub, the main branch should be deployed to production environment.
 2. When a change is pushed to the `staging` branch on GitHub, the staging branch should be deployed to the staging environment.
 3. When a Pull Request is raised in GitHub, the branch associated with it should be deployed and a comment left on the Pull Request with a link to the instance.
 4. When code in a branch associated with a Pull Request is updated, changes should be pushed to the existing instance.
@@ -40,8 +40,8 @@ If you want to be able to deploy to a "staging" by pushing to a branch called "s
 
 For test instance deployment you will need to specify the following:
 
-* `TEST_DOMAIN` – Domain name to use for test instances (e.g. specifying `test.example.com` will result in test URLs like `http://pr-1.test.example.com`)
-* `TEST_SSL_CERT` – SSL certificate name for tests instances (e.g. `test.example.com`)
+* `TEST_DOMAIN` – Domain name to use for test instances (e.g. specifying `test.example.com` will result in test URLs like `https://pr-1.test.example.com`)
+* `TEST_SSL_CERT` – SSL certificate name for tests instances (e.g. `test.example.com`, configured to also support domains like `*.test.example.com)
 
 ### Notes
 
@@ -53,6 +53,8 @@ The AWS Key/Secret need to be associated with an account that has appropriate pe
 
 For this workflow SSL Certificates for staging, production and test should be provisioned in advance, as this step usually requires manual intervention to verify domain ownership as part of the certificate creation process.
 
-While it is possible to full automate provision of SSL certificates within serverless this can be slow. Creating the certificates outside of serverless configuration means you can more quickly and easily tear down and de-deploy environments at any time.
+While it is possible to fullly automate provision of SSL certificates within serverless, this can be slow and is generally not something you'd want in practice due to the time required to automatically provision (or re-provision) a certificate this way. Creating the certificates outside of serverless configuration means you can more quickly and easily tear down and re-deploy environments at any time, with no downtime.
 
-For `*_SSL_CERT` values, simply specify a valid hostname for the certificate and it will automatically find it. If you have a single certificate that supports wildcards for your domain (e.g. if the certificate is valid for `example.com` and `*.example.com`) and you use the same domain in production and testing then you can use the same value of `example.com` for every `*_SSL_CERT` environment variable.
+For the `SSL_CERT` values, simply specify a valid hostname for the certificate and it will automatically find it. If you have multiple certs for a given hostname you can also specify an ARN but you will need to update `serverless.yml` to expect an ARN rather than a name.
+
+If you have a single certificate that supports wildcards for your domain (e.g. if the certificate is valid for `example.com` and `*.example.com`) and you use the same domain in production and testing then you can use the same value of `example.com` for every `SSL_CERT` environment variable.
