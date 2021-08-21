@@ -7,12 +7,12 @@ jobs:
     name: deploy
     runs-on: ubuntu-latest
     steps:
-      # We need to specify the master branch to checkout,
+      # We need to specify the main branch to checkout,
       # as otherwise this Workflow will fail, as it will
       # fail by default when a PR has just been closed!
-      - uses: actions/checkout@master
+      - uses: actions/checkout@main
         with:
-          ref: refs/heads/master
+          ref: refs/heads/main
       - uses: actions/setup-node@v1
       - name: Install NPM dependencies
         run: npm ci
