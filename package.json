@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "cross-env": "^6.0.3",
-    "serverless": "^1.61.2",
+    "serverless": "^3.25.1",
     "serverless-apigw-binary": "^0.4.4",
     "serverless-domain-manager": "^3.3.1",
     "serverless-plugin-common-excludes": "^3.0.0"
